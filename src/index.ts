@@ -1,6 +1,5 @@
 #!/usr/bin/env bun
 import { Command } from 'commander';
-import chalk from 'chalk';
 import { listSkills } from './commands/list.js';
 import { getSkill } from './commands/get.js';
 import { addSkill } from './commands/add.js';
@@ -24,10 +23,7 @@ program
   .description('Get/show a specific skill')
   .action(getSkill);
 
-program
-  .command('add <name>')
-  .description('Add a new skill')
-  .action(addSkill);
+program.command('add <name>').description('Add a new skill').action(addSkill);
 
 program
   .command('update <name>')

@@ -31,10 +31,21 @@
     "ora": "^8.0.0"
   },
   "lint-staged": {
-    "*.{ts,js}": ["eslint --fix", "prettier --write"],
-    "*.{json,md}": ["prettier --write"]
+    "*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   },
-  "keywords": ["cli", "ai", "skills", "coding-assistant", "bun"],
+  "keywords": [
+    "cli",
+    "ai",
+    "skills",
+    "coding-assistant",
+    "bun"
+  ],
   "author": "JoobyPM",
   "license": "MIT"
 }

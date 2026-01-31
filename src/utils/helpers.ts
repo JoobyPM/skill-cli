@@ -9,9 +9,7 @@ const SKILLS_DIR = join(__dirname, '../../skills');
 
 export async function getAvailableSkills(): Promise<string[]> {
   const entries = await readdir(SKILLS_DIR, { withFileTypes: true });
-  return entries
-    .filter(entry => entry.isDirectory())
-    .map(entry => entry.name);
+  return entries.filter(entry => entry.isDirectory()).map(entry => entry.name);
 }
 
 export async function skillExists(name: string): Promise<boolean> {
@@ -27,7 +25,7 @@ export async function readSkillFile(name: string): Promise<string> {
 export async function createSkill(name: string): Promise<void> {
   const skillDir = join(SKILLS_DIR, name);
   await mkdir(skillDir, { recursive: true });
-  
+
   const skillTemplate = `# ${name}
 
 ## Description
@@ -45,7 +43,7 @@ export async function createSkill(name: string): Promise<void> {
 ## Examples
 See [examples.md](./examples.md) for detailed examples.
 `;
-  
+
   const examplesTemplate = `# ${name} - Examples
 
 ## Example 1
@@ -58,7 +56,7 @@ See [examples.md](./examples.md) for detailed examples.
 [Add example prompt]
 \`\`\`
 `;
-  
+
   await writeFile(join(skillDir, 'SKILL.md'), skillTemplate);
   await writeFile(join(skillDir, 'examples.md'), examplesTemplate);
 }
