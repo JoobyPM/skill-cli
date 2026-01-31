@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Command } from 'commander';
 import { createCommand } from './commands/create';
 import { updateCommand } from './commands/update';

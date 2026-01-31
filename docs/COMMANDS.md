@@ -42,7 +42,7 @@ skill update <name>
 skill update my-skill
 ```
 
-> Tip: Use tab completion for skill names when entering commands
+> Tip: Tab completion for skill names is not yet implemented (planned for a future release).
 
 ### delete
 

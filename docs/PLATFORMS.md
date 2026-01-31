@@ -32,12 +32,12 @@ OpenAI's GPT models can be used for coding assistance.
 #### Python Example
 
 ```python
-import openai
+from openai import OpenAI
 
-openai.api_key = 'your-api-key'
+client = OpenAI()
 
-response = openai.ChatCompletion.create(
-    model="gpt-4",
+response = client.chat.completions.create(
+    model="gpt-4o",
     messages=[
         {"role": "system", "content": "You are a helpful coding assistant."},
         {"role": "user", "content": "Write a Python function to reverse a string"}
