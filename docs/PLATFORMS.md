@@ -50,24 +50,20 @@ print(response.choices[0].message.content)
 #### JavaScript Example
 
 ```javascript
-const { Configuration, OpenAIApi } = require('openai');
+import OpenAI from 'openai';
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const openai = new OpenAIApi(configuration);
+const openai = new OpenAI();
 
 async function chat() {
-  const response = await openai.createChatCompletion({
-    model: 'gpt-4',
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
     messages: [
       { role: 'system', content: 'You are a helpful coding assistant.' },
       { role: 'user', content: 'Write a JavaScript function to reverse a string' }
     ],
   });
   
-  console.log(response.data.choices[0].message.content);
+  console.log(response.choices[0].message.content);
 }
 
 chat();

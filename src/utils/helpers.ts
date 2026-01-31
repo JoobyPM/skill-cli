@@ -68,6 +68,7 @@ export async function listSkills(): Promise<string[]> {
 }
 
 export async function getSkillPath(name: string): Promise<string> {
+  validateSkillName(name);
   return path.join(SKILLS_DIR, `${name}.md`);
 }
 
