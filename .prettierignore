@@ -1,0 +1,8 @@
+node_modules
+dist
+bun.lockb
+.git
+.cursor
+*.ts
+*.js
+*.json
