@@ -1,23 +1,20 @@
-import chalk from 'chalk';
-import ora from 'ora';
-import { createSkill, skillExists } from '../utils/helpers.js';
+/**
+ * Add command - creates a new skill with template files
+ */
+
+import { createSpinner, handleResult, muted } from '../utils/cli';
+import { createSkill } from '../utils/helpers';
 
 export async function addSkill(name: string): Promise<void> {
-  const spinner = ora(`Creating skill: ${name}...`).start();
+  const spinner = createSpinner(`Creating skill: ${name}...`);
+  spinner.start();
 
-  try {
-    if (await skillExists(name)) {
-      spinner.fail(`Skill '${name}' already exists`);
-      return;
-    }
+  const result = await createSkill(name);
+  const created = handleResult(result, spinner, `Skill '${name}' created successfully`);
 
-    await createSkill(name);
-    spinner.succeed(`Skill '${name}' created successfully`);
-
-    console.log(chalk.green(`\n✅ Skill '${name}' has been added`));
-    console.log(chalk.gray(`   Location: skills/${name}/SKILL.md\n`));
-  } catch (error) {
-    spinner.fail(`Failed to create skill: ${name}`);
-    console.error(chalk.red(error));
+  if (created === null) {
+    return;
   }
+
+  muted(`\n   Location: skills/${name}/SKILL.md\n`);
 }

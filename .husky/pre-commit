@@ -1,8 +1,9 @@
-# Use bunx if available (for bun users), otherwise use npx
-if command -v bunx >/dev/null 2>&1; then
-  bunx lint-staged
-elif [ -f "$HOME/.bun/bin/bunx" ]; then
-  "$HOME/.bun/bin/bunx" lint-staged
-else
-  npx lint-staged
-fi
+#!/usr/bin/env sh
+
+set -e
+
+# Run lint-staged for formatting and linting
+bunx lint-staged
+
+# Run type checking
+bun run typecheck

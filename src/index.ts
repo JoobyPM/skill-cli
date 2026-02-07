@@ -1,38 +1,38 @@
 #!/usr/bin/env bun
+/**
+ * skill-cli - CLI tool for managing AI coding assistant skills
+ */
+
 import { Command } from 'commander';
-import { listSkills } from './commands/list.js';
-import { getSkill } from './commands/get.js';
-import { addSkill } from './commands/add.js';
-import { updateSkill } from './commands/update.js';
-import { removeSkill } from './commands/remove.js';
+import { addSkill } from './commands/add';
+import { getSkill } from './commands/get';
+import { listSkills } from './commands/list';
+import { removeSkill } from './commands/remove';
+import { updateSkill } from './commands/update';
+import { error } from './utils/cli';
+import { getVersion } from './utils/helpers';
 
 const program = new Command();
 
 program
   .name('skill')
   .description('CLI tool for managing AI coding assistant skills')
-  .version('1.0.0');
+  .version(getVersion());
 
-program
-  .command('list')
-  .description('List all available skills')
-  .action(listSkills);
+program.command('list').description('List all available skills').action(listSkills);
 
-program
-  .command('get <name>')
-  .description('Get/show a specific skill')
-  .action(getSkill);
+program.command('get <name>').description('Get/show a specific skill').action(getSkill);
 
 program.command('add <name>').description('Add a new skill').action(addSkill);
 
-program
-  .command('update <name>')
-  .description('Update an existing skill')
-  .action(updateSkill);
+program.command('update <name>').description('Update an existing skill').action(updateSkill);
 
-program
-  .command('remove <name>')
-  .description('Remove a skill')
-  .action(removeSkill);
+program.command('remove <name>').description('Remove a skill').action(removeSkill);
 
-program.parse();
+try {
+  await program.parseAsync();
+} catch (err) {
+  const message = err instanceof Error ? err.message : String(err);
+  error(`Unexpected error: ${message}`);
+  process.exit(1);
+}

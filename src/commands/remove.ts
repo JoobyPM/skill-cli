@@ -1,22 +1,14 @@
-import chalk from 'chalk';
-import ora from 'ora';
-import { skillExists, deleteSkill } from '../utils/helpers.js';
+/**
+ * Remove command - deletes a skill
+ */
+
+import { createSpinner, handleResult } from '../utils/cli';
+import { deleteSkill } from '../utils/helpers';
 
 export async function removeSkill(name: string): Promise<void> {
-  const spinner = ora(`Removing skill: ${name}...`).start();
+  const spinner = createSpinner(`Removing skill: ${name}...`);
+  spinner.start();
 
-  try {
-    if (!(await skillExists(name))) {
-      spinner.fail(`Skill '${name}' not found`);
-      return;
-    }
-
-    await deleteSkill(name);
-    spinner.succeed(`Skill '${name}' removed successfully`);
-
-    console.log(chalk.yellow(`\n🗑️  Skill '${name}' has been removed\n`));
-  } catch (error) {
-    spinner.fail(`Failed to remove skill: ${name}`);
-    console.error(chalk.red(error));
-  }
+  const result = await deleteSkill(name);
+  handleResult(result, spinner, `Skill '${name}' removed successfully`);
 }

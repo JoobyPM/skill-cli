@@ -34,15 +34,15 @@ Claude is available via web interface and API.
 **API Usage:**
 
 ```python
-import anthropic
+from anthropic import Anthropic
 
 skill_content = """[Content from skill get <name>]"""
 
-client = anthropic.Anthropic(api_key="key")
+client = Anthropic()
 message = client.messages.create(
-    model="claude-3-opus-20240229",
+    model="claude-sonnet-4-20250514",
     system=skill_content,
-    messages=[{"role": "user", "content": "..."}]
+    messages=[{"role": "user", "content": "..."}],
 )
 ```
 
@@ -83,17 +83,18 @@ Refactor this code: [your code]
 **OpenAI API:**
 
 ```python
-import openai
+from openai import OpenAI
 
-with open('skills/testing/SKILL.md', 'r') as f:
+with open("skills/testing/SKILL.md", "r") as f:
     skill = f.read()
 
-openai.ChatCompletion.create(
-    model="gpt-4",
+client = OpenAI()
+response = client.chat.completions.create(
+    model="gpt-4o",
     messages=[
         {"role": "system", "content": skill},
-        {"role": "user", "content": "Generate tests for: [code]"}
-    ]
+        {"role": "user", "content": "Generate tests for: [code]"},
+    ],
 )
 ```
 

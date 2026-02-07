@@ -1,22 +1,31 @@
-import chalk from 'chalk';
-import ora from 'ora';
-import { skillExists, updateSkillFile } from '../utils/helpers.js';
+/**
+ * Update command - updates an existing skill
+ */
+
+import { NotImplementedError } from '../types';
+import { createSpinner, warning } from '../utils/cli';
+import { updateSkillFile } from '../utils/helpers';
 
 export async function updateSkill(name: string): Promise<void> {
-  const spinner = ora(`Updating skill: ${name}...`).start();
+  const spinner = createSpinner(`Updating skill: ${name}...`);
+  spinner.start();
 
-  try {
-    if (!(await skillExists(name))) {
-      spinner.fail(`Skill '${name}' not found`);
-      return;
-    }
+  const result = await updateSkillFile(name);
 
-    await updateSkillFile(name);
+  if (result.success) {
     spinner.succeed(`Skill '${name}' updated successfully`);
-
-    console.log(chalk.green(`\n✅ Skill '${name}' has been updated\n`));
-  } catch (error) {
-    spinner.fail(`Failed to update skill: ${name}`);
-    console.error(chalk.red(error));
+    return;
   }
+
+  // Handle NotImplementedError specially - it's expected
+  if (result.error instanceof NotImplementedError) {
+    spinner.stop();
+    warning(`Update functionality is not yet implemented for skill '${name}'`);
+    process.exitCode = 1;
+    return;
+  }
+
+  // Other errors
+  spinner.fail(result.error.message);
+  process.exitCode = 1;
 }

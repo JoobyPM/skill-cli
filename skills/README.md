@@ -1,6 +1,7 @@
 # Skills Overview
 
-Pre-built skills for AI coding assistants. Each skill provides structured guidance for specific tasks.
+Pre-built skills for AI coding assistants. Each skill provides structured guidance for specific
+tasks.
 
 ## Using Skills
 

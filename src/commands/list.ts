@@ -1,23 +1,34 @@
-import chalk from 'chalk';
-import ora from 'ora';
-import { getAvailableSkills } from '../utils/helpers.js';
+/**
+ * List command - displays all available skills
+ */
+
+import { createSpinner, info, muted, title } from '../utils/cli';
+import { getAvailableSkills } from '../utils/helpers';
 
 export async function listSkills(): Promise<void> {
-  const spinner = ora('Loading skills...').start();
+  const spinner = createSpinner('Loading skills...');
+  spinner.start();
 
-  try {
-    const skills = await getAvailableSkills();
-    spinner.succeed('Skills loaded successfully');
+  const result = await getAvailableSkills();
 
-    console.log(chalk.bold('\n📚 Available Skills:\n'));
-
-    skills.forEach((skill, index) => {
-      console.log(chalk.cyan(`  ${index + 1}. ${skill}`));
-    });
-
-    console.log(chalk.gray(`\n  Total: ${skills.length} skills\n`));
-  } catch (error) {
-    spinner.fail('Failed to load skills');
-    console.error(chalk.red(error));
+  if (!result.success) {
+    spinner.fail(result.error.message);
+    process.exitCode = 1;
+    return;
   }
+
+  spinner.succeed('Skills loaded successfully');
+
+  const skills = result.data;
+  title('📚 Available Skills:');
+
+  if (skills.length === 0) {
+    muted('  No skills found. Use `skill add <name>` to create one.');
+  } else {
+    skills.forEach((skill, index) => {
+      info(`  ${index + 1}. ${skill}`);
+    });
+  }
+
+  muted(`\n  Total: ${skills.length} skill${skills.length === 1 ? '' : 's'}\n`);
 }

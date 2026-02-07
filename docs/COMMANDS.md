@@ -76,8 +76,8 @@ skill remove my-skill
 
 ## Tips
 
-1. Use tab completion for skill names
-2. Use kebab-case for skill names (e.g., `my-new-skill`)
+1. Use kebab-case for skill names (e.g., `my-new-skill`)
+2. Skill names must start with a lowercase letter and contain only `a-z`, `0-9`, `-`, `_`
 3. Back up skills before removing them
 
 ## Examples

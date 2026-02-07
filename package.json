@@ -9,17 +9,21 @@
   },
   "scripts": {
     "dev": "bun run src/index.ts",
-    "build": "bun build src/index.ts --outdir ./dist --target node",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "build": "bun build src/index.ts --outdir ./dist --target bun",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint ./src",
+    "lint:fix": "biome lint --write ./src",
+    "format": "biome format --write . && prettier --write \"**/*.md\"",
+    "format:check": "biome format . && prettier --check \"**/*.md\"",
+    "check": "biome check ./src",
+    "check:fix": "biome check --write ./src",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
     "prepare": "husky"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
-    "eslint": "^8.57.0",
+    "@biomejs/biome": "^1.9.0",
+    "@types/bun": "latest",
     "husky": "^9.0.0",
     "lint-staged": "^15.0.0",
     "prettier": "^3.2.0",
@@ -27,25 +31,13 @@
   },
   "dependencies": {
     "chalk": "^5.3.0",
-    "commander": "^12.0.0",
-    "ora": "^8.0.0"
+    "commander": "^12.0.0"
   },
   "lint-staged": {
-    "*.{ts,js}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md}": [
-      "prettier --write"
-    ]
+    "*.{ts,js,json}": ["biome check --write"],
+    "*.md": ["prettier --write"]
   },
-  "keywords": [
-    "cli",
-    "ai",
-    "skills",
-    "coding-assistant",
-    "bun"
-  ],
+  "keywords": ["cli", "ai", "skills", "coding-assistant", "bun"],
   "author": "JoobyPM",
   "license": "MIT"
 }
